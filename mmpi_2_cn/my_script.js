@@ -487,18 +487,18 @@ function clearContent() {
 
     // 20230525凌晨加的
     // 创建图片元素
-    var img = document.createElement('img');
-    img.src = './ali.jpg'; // 替换为要显示的图片路径
+    //var img = document.createElement('img');
+    //img.src = './ali.jpg'; // 替换为要显示的图片路径
 
     // 设置图片样式
-    img.style.width = '15%'; // 设置宽度为50%
-    img.style.display = 'block'; // 设置为块级元素
-    img.style.margin = 'auto'; // 设置居中对齐
+    //img.style.width = '15%'; // 设置宽度为50%
+    //img.style.display = 'block'; // 设置为块级元素
+    //img.style.margin = 'auto'; // 设置居中对齐
 
     // 创建注释性文字元素
     var span = document.createElement('span');
     //var span2 = document.createElement('span2');
-    var text = document.createTextNode('如果我在心理学和编程方面的工作对你有帮助，欢迎随意打赏肯定一下我的付出:)'); 
+    var text = document.createTextNode('分数及解析均仅供参考。若要寻求更多帮助，请务必咨询专业人士。'); 
     //var text2 = document.createTextNode('观心自在，欢喜随缘，多少无谓。');
     span.appendChild(text);
     //span2.appendChild(text2);
@@ -507,7 +507,7 @@ function clearContent() {
     span.style.display = 'block'
     span.style.textAlign= 'center'; // 设置居中对齐
     span.style.color = '#B0C4DE'; // 设置文字颜色
-    span.style.fontFamily = 'KaiTi'; // 设置字体为楷体
+    //原作者设个鬼楷体，难看死了
     //span2.style.display = 'block'
     //span2.style.textAlign= 'center'; // 设置居中对齐
     //span2.style.color = '#B0C4DE'; // 设置文字颜色
@@ -519,7 +519,7 @@ function clearContent() {
     document.body.appendChild(document.createElement('br'));
 
     // 将图片元素添加到文档中
-    document.body.appendChild(img);
+    //document.body.appendChild(img);
 
     document.body.appendChild(document.createElement('br'));
     document.body.appendChild(document.createElement('br'));
