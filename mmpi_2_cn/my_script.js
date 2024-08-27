@@ -1336,6 +1336,7 @@ function start_to_print_result(resultArray, tscoreArray){
   document.body.appendChild(table);
 }
 
+/*
 // 2023.5.26添加了一个移动端的简单提示信息。
 function showModalInThePhone(){
   // 创建一个包含自定义内容的 div 元素
@@ -1401,8 +1402,7 @@ function hideModal() {
   var modal = document.querySelector(".modal");
   document.body.removeChild(modal);
 }
-
-
+*/
 
 
 function selectAll() {

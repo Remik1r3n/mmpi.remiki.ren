@@ -3,13 +3,12 @@
 <head>
   <meta charset="utf-8">
 
-  <meta name="keywords" content="MMPI-2, 中, 英, 测试">
+  <meta name="keywords" content="MMPI-2 @ MMPI.Remiki.ren">
 	<meta name="description" content="你可以在该页面进行MMPI测试，并可以在测试完成后得到原始结果、人格剖析图以及基本的解释。">
-	<meta name="google-site-verification" content="Nn_Nci8x_SMFc-Z2NeVifZ0_MTspzOyIefsEXAPPJgE" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 
 
-  <title>MMPI-2中文测试</title>
+  <title>MMPI-2 中文测试(改)</title>
   <script type="text/javascript" src="mmpi_2_cn/my_data.js"></script>
   <script type="text/javascript" src="mmpi_2_cn/my_script.js"></script>
 
@@ -24,58 +23,6 @@
 	body {background-color: #1b1f22;
         /*background-image: linear-gradient(#1b1f22, #708090);*/
     }
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 60%;
-      height: 60%;
-      background-color: rgba(203, 222, 211, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-
-      
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    
-    .modal-content {
-      background-color: rgb(204, 210, 199);
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      font-family:Times New Roman,Hei,Kaiti;
-      text-align: center;
-    }
-    
-    
-    .modal-content h1 {
-      margin-top: 0;
-      text-align: center;
-    }
-    
-    .modal-content p {
-      text-align: left;
-      margin-bottom: 0;
-    }
-
-    
-    .modal-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-    }
-    
-    .modal-close:before {
-      content: "×";
-      font-size: 24px;
-    }
-
   </style>
   <style>
     label {
@@ -114,7 +61,6 @@
         -webkit-transition-duration: 0.4s; /* Safari */
         transition-duration: 0.4s;
         cursor: pointer;
-        font-family:Arial,Kaiti;
     }
     
     .my_button {
@@ -131,25 +77,13 @@
 </head>
 <body><div>
 
-  <!-- 尝试弹出提升框 -->
-  <script>
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      // 在移动端上不使用该函数
-      // 2023.5.26我改主意了；重载一个简单的函数就好。
-      window.onload = showModalInThePhone();
-    } else {
-      // 在其他设备上使用该函数
-      window.onload = showModal();
-    }
-  </script>
-  
-    <div style="width:100%;text-align:center;color:#F0F8FF;font-size:2rem;font-family:Times New Roman,Hei,Kaiti">
+  <div style="width:100%;text-align:center;color:#F0F8FF;font-size:2rem">
         <h1>
             <b>MMPI-2中文测试</b>
         </h1>
     </div>
 
-  <div style="width:100%;text-align:center;color:#F0F8FF;font-size:1.5rem;font-family:Arial,Hei,Kaiti">
+  <div style="width:100%;text-align:center;color:#F0F8FF;font-size:1.5rem">
   <!-- <div id="my_damn_form"> -->
 
   <form name="config" action="#">
@@ -219,7 +153,7 @@
           formData.append('score', JSON.stringify(score));
         
           // 使用 fetch 发送异步请求
-          fetch('https://formspree.io/f/xpzvylav', {
+          fetch('https://formspree.io/f/', {
             method: 'POST',
             body: formData
           }).then(response => {
@@ -234,7 +168,7 @@
         }
         </script>
                                                                               <!-- onclick="removeRequired();"--> 
-        <form id="select_all" name="questions" action="https://formspree.io/f/xpzvylav" method="POST" onsubmit="submitForm(event);">
+        <form id="select_all" name="questions" action="https://formspree.io/f/" method="POST" onsubmit="submitForm(event);">
           <!-- 其他内容省略 -->
           <script type="text/javascript">my_doc_write_all_questions();</script>
           <button class="my_button" type="submit">
@@ -254,7 +188,7 @@
     <br><br><br><br>
   </div>
 
-</div><!--这种在body上直接加div的方法能解决渐变的问题吗？-->></body>
+</div></body>
 
 
 </html>
