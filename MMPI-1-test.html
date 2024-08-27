@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8">
 
   <meta name="keywords" content="MMPI-2 @ MMPI.Remiki.ren">
-	<meta name="description" content="你可以在该页面进行MMPI测试，并可以在测试完成后得到原始结果、人格剖析图以及基本的解释。">
+  <meta name="description" content="你可以在该页面进行MMPI测试，并可以在测试完成后得到原始结果、人格剖析图以及基本的解释。">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 
 
@@ -14,96 +15,119 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
-  <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
-  
-
-  <!-- <link rel="stylesheet" href="./front_page/main.css"> -->
-
   <style>
-	body {background-color: #1b1f22;
-        /*background-image: linear-gradient(#1b1f22, #708090);*/
+    body {
+      background-color: #1b1f22;
+      /*background-image: linear-gradient(#1b1f22, #708090);*/
     }
   </style>
   <style>
     label {
-        margin-right: 15px;
-        line-height: 32px;
-      }
-      
+      margin-right: 15px;
+      line-height: 32px;
+    }
+
     input[type="radio"] {
-        appearance: none;
-      
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-      
-        border: 2px solid #999;
-        transition: 0.2s all linear;
-        margin-right: 5px;
-      
-        position: relative;
-        top: 4px;
-      }
-      
-      input:checked {
-        border: 6px solid #B0C4DE;
-      }
-      
-      /* from web... */
-      .my_button {
-        border-radius: 12px;
-        padding: 8px 12px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 1.2rem;
-        margin: 4px 2px;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
+      appearance: none;
+
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+
+      border: 2px solid #999;
+      transition: 0.2s all linear;
+      margin-right: 5px;
+
+      position: relative;
+      top: 4px;
     }
-    
+
+    input:checked {
+      border: 6px solid #B0C4DE;
+    }
+
+    /* from web... */
     .my_button {
-        background-color: #696969; 
-        color: white; 
-        border: 2px solid #B0C4DE;
+      border-radius: 12px;
+      padding: 8px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1.2rem;
+      margin: 4px 2px;
+      -webkit-transition-duration: 0.4s;
+      /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
     }
-    
+
+    .my_button {
+      background-color: #696969;
+      color: white;
+      border: 2px solid #B0C4DE;
+    }
+
     .my_button:hover {
-        background-color: #B0C4DE;
-        color: white;
+      background-color: #B0C4DE;
+      color: white;
     }
   </style>
-</head>
-<body><div>
 
-  <div style="width:100%;text-align:center;color:#F0F8FF;font-size:2rem">
-        <h1>
-            <b>MMPI-2中文测试</b>
-        </h1>
+  <style>
+    .button-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .button-container a {
+      background-color: #1e90ff;
+      color: #ffffff;
+      padding: 15px 30px;
+      border-radius: 5px;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .button-container a:hover {
+      background-color: #104e8b;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div>
+    <div style="width:100%;text-align:center;color:#F0F8FF;font-size:2rem">
+      <h2><b>MMPI-2 中文测试<small>(改)</small></b></h2>
     </div>
 
-  <div style="width:100%;text-align:center;color:#F0F8FF;font-size:1.5rem">
-  <!-- <div id="my_damn_form"> -->
+    <div class="button-container">
+      <a href="/index.html">返回主页</a>
+      </br></br>
+    </div>
 
-  <form name="config" action="#">
-    <p>
-      您的性别:<br>
-      <input type="radio" name="gender" value="M" onclick="set_gender(0);" checked="">男性
-      <input type="radio" name="gender" value="F" onclick="set_gender(1);">女性
-    </p>
-  <!--
+    <div style="width:100%;text-align:center;color:#F0F8FF;font-size:1.5rem">
+      <!-- <div id="my_damn_form"> -->
+
+      <form name="config" action="#">
+        <p>
+          您的性别:<br>
+          <input type="radio" name="gender" value="M" onclick="set_gender(0);" checked="">男性
+          <input type="radio" name="gender" value="F" onclick="set_gender(1);">女性
+        </p>
+        <!--
     <p>
       Test 567 / 370:<br>测试版本：完整版（567） 或 简略版（370）<br>
       <input type="radio" name="testform" value="L" onclick="use_long_form(true);" checked="">Long
       <input type="radio" name="testform" value="S" onclick="use_long_form(false);">Short
     </p>
   -->
-  </form>
+      </form>
 
-  <script type="text/javascript">
-    function autoFillAnswers() {
-      let rawData = `TTTFF   TTTTT   FTTTF   TFFTT   TTFFT   FTFTF   FFTFT   FTFTF
+      <script type="text/javascript">
+        function autoFillAnswers() {
+          let rawData = `TTTFF   TTTTT   FTTTF   TFFTT   TTFFT   FTFTF   FFTFT   FTFTF
     TFTFT   FTFTF   TFFTF   FTTFF   TFTTF   FTTFF   FFFFT   TTFFF
     
     TFTFT   FFFFF   FFTFT   FFTFF   FTTFT   TFFTT   FTTFT   FTTFF
@@ -118,42 +142,42 @@
     TFTTF   FFFFT   FFFFF   FFTFF   FFFTF   FTFTF   FTFTF   FTFFT
     FTFTT   FTFFF`;
 
-      var answers = rawData.replace(/\s+/g, '').split('');
-    
-      // 获取所有的问题元素
-      var questions = document.forms.questions.elements;
-    
-      // 遍历所有的问题，并设置答案
-      for (var i = 0; i < questions.length; i++) {
-        questions["Q"+i][0].value = answers[i];
-      }
-    }
-    </script>
-    
-    <script type="text/javascript">
-      function removeRequired() {
-        // 获取所有的输入元素
-        var inputs = document.forms.questions.getElementsByTagName('input');
-      
-        // 遍历所有的输入元素，并移除 'required' 属性
-        for (var i = 0; i < inputs.length; i++) {
-          inputs[i].removeAttribute('required');
+          var answers = rawData.replace(/\s+/g, '').split('');
+
+          // 获取所有的问题元素
+          var questions = document.forms.questions.elements;
+
+          // 遍历所有的问题，并设置答案
+          for (var i = 0; i < questions.length; i++) {
+            questions["Q" + i][0].value = answers[i];
+          }
         }
-      }
       </script>
-      
+
+      <script type="text/javascript">
+        function removeRequired() {
+          // 获取所有的输入元素
+          var inputs = document.forms.questions.getElementsByTagName('input');
+
+          // 遍历所有的输入元素，并移除 'required' 属性
+          for (var i = 0; i < inputs.length; i++) {
+            inputs[i].removeAttribute('required');
+          }
+        }
+      </script>
+
       <script type="text/javascript">
         function submitForm(e) {
           e.preventDefault(); // 阻止表单的默认提交行为
-        
+
           var score = score_rb(document.forms.questions); // 获取分数
-        
+
           // 创建一个新的 FormData 对象，并添加分数
           var formData = new FormData(document.forms.questions);
           formData.append('score', JSON.stringify(score));
-        
+
           // 使用 fetch 发送异步请求
-          fetch('https://formspree.io/f/', {
+          fetch('https://formspree.io/f/mqaznpvn', {
             method: 'POST',
             body: formData
           }).then(response => {
@@ -166,29 +190,31 @@
             console.error('发生错误:', error);
           });
         }
-        </script>
-                                                                              <!-- onclick="removeRequired();"--> 
-        <form id="select_all" name="questions" action="https://formspree.io/f/" method="POST" onsubmit="submitForm(event);">
-          <!-- 其他内容省略 -->
-          <script type="text/javascript">my_doc_write_all_questions();</script>
-          <button class="my_button" type="submit">
-            <span>提交测试</span>
-          </button>
-          <!-- 其他内容省略 -->
-        </form>
-        
-      
-  
-  </div>
+      </script>
+      <!-- onclick="removeRequired();"-->
+      <form id="select_all" name="questions" action="https://formspree.io/f/mqaznpvn" method="POST"
+        onsubmit="submitForm(event);">
+        <!-- 其他内容省略 -->
+        <script type="text/javascript">my_doc_write_all_questions();</script>
+        <button class="my_button" type="submit">
+          <span>提交测试</span>
+        </button>
+        <!-- 其他内容省略 -->
+      </form>
 
-  <div id="myCharts" style="width:90%;height:90%;margin:auto">
-    <canvas id="myChart1"></canvas>
-    <br><br><br><br>
-    <canvas id="myChart2"></canvas>
-    <br><br><br><br>
-  </div>
 
-</div></body>
+
+    </div>
+
+    <div id="myCharts" style="width:90%;height:90%;margin:auto">
+      <canvas id="myChart1"></canvas>
+      <br><br><br><br>
+      <canvas id="myChart2"></canvas>
+      <br><br><br><br>
+    </div>
+
+  </div>
+</body>
 
 
 </html>
