@@ -92,8 +92,35 @@
     .button-container a:hover {
       background-color: #104e8b;
     }
-  </style>
 
+    /* For better printing support */
+    @media print {
+      body {
+        background-color: white;
+        color: black;
+      }
+
+      .button-container,
+      #myCharts {
+        display: none;
+      }
+
+      h2 {
+        color: black;
+      }
+
+      input[type="radio"] {
+        border-color: black;
+      }
+
+      input[type="radio"]:checked {
+        border-color: black;
+      }
+
+      .my_button {
+        display: none;
+      }
+  </style>
 </head>
 
 <body>
