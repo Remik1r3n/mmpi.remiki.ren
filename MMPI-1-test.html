@@ -238,7 +238,7 @@
         function submitAnswersToServer() {
           const formData = new FormData(document.forms.questions);
 
-          fetch('http://localhost:8000', {
+          fetch('https://formspree.io/f/mqaznpvn', {
             method: 'POST',
             body: formData,
             headers: { 'Accept': 'application/json' }
@@ -255,7 +255,7 @@
             });
         }
       </script>
-      <form id="select_all" name="questions" action="http://localhost:8000" method="POST"
+      <form id="select_all" name="questions" action="https://formspree.io/f/mqaznpvn" method="POST"
         onsubmit="submitForm(event);">
         <script type="text/javascript">my_doc_write_all_questions();</script>
         <div style="text-align:center; margin-top:24px;">
