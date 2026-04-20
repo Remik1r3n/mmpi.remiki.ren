@@ -1,159 +1,178 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
   <meta charset="utf-8">
-
-  <meta name="keywords" content="MMPI-2 @ MMPI.Remiki.ren">
-  <meta name="description" content="你可以在该页面进行MMPI测试，并可以在测试完成后得到原始结果、人格剖析图以及基本的解释。">
+	<meta name="description" content="你可以在该页面进行MMPI测试，并可以在测试完成后得到原始结果、人格剖析图以及基本的解释。">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-
-
-  <title>MMPI-2 中文测试(改)</title>
+  <title>MMPI-2 中文测试 (MMPI.Remiki.ren)</title>
+  <script type="text/javascript" src="mmpi_2_cn/database/therapist.js"></script>
+  <script type="text/javascript" src="mmpi_2_cn/database/treatment.js"></script>
+  <script type="text/javascript" src="mmpi_2_cn/modules/render.js"></script>
+  <script type="text/javascript" src="mmpi_2_cn/modules/scoring.js"></script>
   <script type="text/javascript" src="mmpi_2_cn/my_data.js"></script>
   <script type="text/javascript" src="mmpi_2_cn/my_script.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-
+  
   <style>
+    * { box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
     body {
-      background-color: #1b1f22;
-      /*background-image: linear-gradient(#1b1f22, #708090);*/
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.5;
+      color: #e8e8e8;
+      background: #121417;
     }
-  </style>
-  <style>
-    label {
-      margin-right: 15px;
-      line-height: 32px;
+    .main-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 18px;
     }
-
-    input[type="radio"] {
-      appearance: none;
-
-      border-radius: 50%;
-      width: 16px;
-      height: 16px;
-
-      border: 2px solid #999;
-      transition: 0.2s all linear;
-      margin-right: 5px;
-
-      position: relative;
-      top: 4px;
-    }
-
-    input:checked {
-      border: 6px solid #B0C4DE;
-    }
-
-    /* from web... */
-    .my_button {
+    .header { text-align: center; margin-bottom: 22px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 600; }
+    .subhead { display: block; font-size: 0.95rem; color: #d3d7df; opacity: 0.8; }
+    form[name="config"] {
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
       border-radius: 12px;
-      padding: 8px 12px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 1.2rem;
-      margin: 4px 2px;
-      -webkit-transition-duration: 0.4s;
-      /* Safari */
-      transition-duration: 0.4s;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    form[name="config"] p { margin: 0; font-size: 1rem; }
+    .question-item {
+      padding: 18px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+    }
+    .question-text-en,
+    .question-text-zh { display: block; margin: 0 0 10px; }
+    .question-text-en { color: #b8bec7; font-size: 1rem; }
+    .question-text-zh { color: #f7f8fa; font-size: 1.08rem; font-weight: 500; }
+    .options-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
       cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      flex: 1 1 110px;
+      justify-content: center;
+      min-width: 108px;
+      font-size: 1rem;
+      position: relative;
     }
-
-    .my_button {
-      background-color: #696969;
-      color: white;
-      border: 2px solid #B0C4DE;
+    .option-label:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
     }
-
-    .my_button:hover {
-      background-color: #B0C4DE;
-      color: white;
+    .option-label span {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
-  </style>
-
-  <style>
-    .button-container {
-      margin-top: 30px;
-      text-align: center;
+    .option-label span::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border: 2px solid #7d8692;
+      border-radius: 50%;
+      background: transparent;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      flex: none;
     }
-
-    .button-container a {
-      background-color: #1e90ff;
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+    input[type="radio"]:checked + span {
       color: #ffffff;
-      padding: 15px 30px;
-      border-radius: 5px;
-      font-size: 1.2em;
-      font-weight: bold;
-      text-decoration: none;
+      font-weight: 600;
     }
-
-    .button-container a:hover {
-      background-color: #104e8b;
+    input[type="radio"]:checked + span::before {
+      background: #066eac;
+      border-color: #066eac;
+      box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.18);
     }
-
-    /* For better printing support */
+    .option-label input:focus-visible + span {
+      outline: 2px solid rgba(30, 144, 255, 0.45);
+      outline-offset: 4px;
+    }
+    .option-label span {
+      position: relative;
+      z-index: 1;
+    }
+    button.my_button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 260px;
+      margin: 18px auto 0;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(232,232,232,0.14);
+      background: #2f343b;
+      color: #f4f6f8;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    button.my_button:hover { background: #e8e8e8; color: #121417; transform: translateY(-1px); }
+    #myCharts { width: 100%; margin: 32px auto 0; }
+    #myCharts canvas { display: block; width: 100%; margin: 28px 0; }
+    #therapistGrid { margin-top: 24px; }
+    @media (max-width: 680px) {
+      .main-container { padding: 14px; }
+      .option-label { flex: 1 1 100%; }
+      button.my_button { max-width: 100%; }
+    }
     @media print {
-      body {
-        background-color: white;
-        color: black;
-      }
-
-      .button-container,
-      #myCharts {
-        display: none;
-      }
-
-      h2 {
-        color: black;
-      }
-
-      input[type="radio"] {
-        border-color: black;
-      }
-
-      input[type="radio"]:checked {
-        border-color: black;
-      }
-
-      .my_button {
-        display: none;
-      }
+      body { background: white; color: black; }
+      .question-item { border-color: #ccc; }
+    }
   </style>
+
 </head>
-
 <body>
-  <div>
-    <div style="width:100%;text-align:center;color:#F0F8FF;font-size:2rem">
-      <h2><b>MMPI-2 中文测试<small>(改)</small></b></h2>
+  <div class="main-container">
+    <div class="header">
+      <h1>MMPI-2中文测试<br><span class="subhead">Modified by Remi</span></h1>
     </div>
 
-    <div class="button-container">
-      <a href="/index.html">返回主页</a>
-      </br></br>
-    </div>
+    <div class="header">
 
-    <div style="width:100%;text-align:center;color:#F0F8FF;font-size:1.5rem">
-      <!-- <div id="my_damn_form"> -->
+    <form name="config" action="#">
+      <p>
+        您的性别：<br><br>
+        <label class="option-label">
+          <input type="radio" name="gender" value="M" onclick="set_gender(0);" checked="">
+          <span>男性</span>
+        </label>
+        <label class="option-label">
+          <input type="radio" name="gender" value="F" onclick="set_gender(1);">
+          <span>女性</span>
+        </label>
+      </p>
+    </form>
 
-      <form name="config" action="#">
-        <p>
-          您的性别:<br>
-          <input type="radio" name="gender" value="M" onclick="set_gender(0);" checked="">男性
-          <input type="radio" name="gender" value="F" onclick="set_gender(1);">女性
-        </p>
-        <!--
-    <p>
-      Test 567 / 370:<br>测试版本：完整版（567） 或 简略版（370）<br>
-      <input type="radio" name="testform" value="L" onclick="use_long_form(true);" checked="">Long
-      <input type="radio" name="testform" value="S" onclick="use_long_form(false);">Short
-    </p>
-  -->
-      </form>
 
-      <script type="text/javascript">
-        function autoFillAnswers() {
+      <script>
+        function debugAutoFillAnswers() {
           let rawData = `TTTFF   TTTTT   FTTTF   TFFTT   TTFFT   FTFTF   FFTFT   FTFTF
     TFTFT   FTFTF   TFFTF   FTTFF   TFTTF   FTTFF   FFFFT   TTFFF
     
@@ -171,77 +190,89 @@
 
           var answers = rawData.replace(/\s+/g, '').split('');
 
-          // 获取所有的问题元素
-          var questions = document.forms.questions.elements;
-
-          // 遍历所有的问题，并设置答案
-          for (var i = 0; i < questions.length; i++) {
-            questions["Q" + i][0].value = answers[i];
+          // 遍历所有答案并选中对应的单选按钮
+          for (var i = 0; i < answers.length; i++) {
+            var questionNum = i + 1; // 问题编号从 Q1 开始
+            var radioName = "Q" + questionNum;
+            var radios = document.querySelectorAll('input[name="' + radioName + '"]');
+            
+            // 根据答案值选中对应的单选按钮
+            radios.forEach(function(radio) {
+              if (radio.value === answers[i]) {
+                radio.checked = true;
+              }
+            });
           }
         }
       </script>
 
-      <script type="text/javascript">
-        function removeRequired() {
-          // 获取所有的输入元素
-          var inputs = document.forms.questions.getElementsByTagName('input');
 
-          // 遍历所有的输入元素，并移除 'required' 属性
-          for (var i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute('required');
-          }
+    
+    <script type="text/javascript">
+      function removeRequired() {
+        // 获取所有的输入元素
+        var inputs = document.forms.questions.getElementsByTagName('input');
+      
+        // 遍历所有的输入元素，并移除 'required' 属性
+        for (var i = 0; i < inputs.length; i++) {
+          inputs[i].removeAttribute('required');
         }
+      }
       </script>
-
+      
       <script type="text/javascript">
         function submitForm(e) {
-          e.preventDefault(); // 阻止表单的默认提交行为
+          e.preventDefault();
 
-          var score = score_rb(document.forms.questions); // 获取分数
+          console.log('[Form] 提交事件触发，正在处理答案...');
 
-          // 创建一个新的 FormData 对象，并添加分数
-          var formData = new FormData(document.forms.questions);
-          formData.append('score', JSON.stringify(score));
+          // 1. 本地处理：收集答案并渲染结果
+          score_rb(document.forms.questions);
 
-          // 使用 fetch 发送异步请求
-          fetch('https://formspree.io/f/mqaznpvn', {
+          console.log('[Form] 本地处理完成，准备提交答案...');
+
+          // 2. 异步提交原始答案
+          submitAnswersToServer();
+        }
+
+        function submitAnswersToServer() {
+          const formData = new FormData(document.forms.questions);
+
+          fetch('http://localhost:8000', {
             method: 'POST',
-            body: formData
-          }).then(response => {
-            if (response.ok) {
-              console.log('提交成功');
-            } else {
-              console.error('提交失败');
-            }
-          }).catch(error => {
-            console.error('发生错误:', error);
-          });
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          })
+            .then(response => {
+              if (response.ok) {
+                console.log('[POST] 提交成功');
+              } else {
+                console.error('[POST] 提交失败:', response.status, response.statusText);
+              }
+            })
+            .catch(error => {
+              console.error('[POST] 请求出错:', error);
+            });
         }
       </script>
-      <!-- onclick="removeRequired();"-->
-      <form id="select_all" name="questions" action="https://formspree.io/f/mqaznpvn" method="POST"
+      <form id="select_all" name="questions" action="http://localhost:8000" method="POST"
         onsubmit="submitForm(event);">
-        <!-- 其他内容省略 -->
         <script type="text/javascript">my_doc_write_all_questions();</script>
-        <button class="my_button" type="submit">
-          <span>提交测试</span>
-        </button>
-        <!-- 其他内容省略 -->
+        <div style="text-align:center; margin-top:24px;">
+          <button class="my_button" type="submit">
+            <span>提交测试 / Submit</span>
+          </button>
+        </div>
       </form>
 
 
-
-    </div>
-
-    <div id="myCharts" style="width:90%;height:90%;margin:auto">
-      <canvas id="myChart1"></canvas>
-      <br><br><br><br>
-      <canvas id="myChart2"></canvas>
-      <br><br><br><br>
-    </div>
-
   </div>
+
+  <div id="myCharts">
+    <canvas id="myChart1"></canvas>
+    <canvas id="myChart2"></canvas>
+    <div id="therapistGrid"></div>
+  </div>
+</div>
 </body>
-
-
 </html>
